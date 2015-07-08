@@ -4,13 +4,8 @@
   tags:
     - yum
 
-- name: update yum cache
-  command: yum makecache
-  tags:
-    - yum
-
 - name: update packages to the latest version
-  yum: name=* state=latest
+  yum: name=* state=latest update_cache=yes
   tags:
     - yum
     - update

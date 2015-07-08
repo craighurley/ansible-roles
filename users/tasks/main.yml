@@ -16,6 +16,7 @@
   with_items:
     - "{{ v_private_users }}"
   when: item.username is defined
+  no_log: true
   tags:
     - users
 
@@ -25,6 +26,7 @@
   with_items:
     - "{{ v_private_users }}"
   when: item.key is defined
+  no_log: true
   tags:
     - users
     - keys
@@ -35,5 +37,6 @@
   with_items:
     - "{{ v_private_users_delete }}"
   when: item.username is defined
+  no_log: true
   tags:
     - users

@@ -11,4 +11,4 @@
     - selinux
     - ntp
     - firewall
-    #- docker-znc
+    - docker-znc

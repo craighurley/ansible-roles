@@ -1,0 +1,66 @@
+// {{ ansible_managed }}
+
+AnonIPLimit = 10
+ConnectDelay = 5
+MaxBufferSize = {{ v_znc_max_buffer }}
+ProtectWebSessions = true
+SSLCertFile = {{ v_znc_ssl_cert }}
+ServerThrottle = 30
+Skin = _default_
+StatusPrefix = *
+Version = 1.6
+
+<Listener listener0>
+    AllowIRC = true
+    AllowWeb = false
+    Host = {{ v_znc_listen_ip }}
+    IPv4 = true
+    IPv6 = false
+    Port = {{ v_znc_listen_port }}
+    SSL = true
+</Listener>
+
+{% for user in v_znc_users %}
+<User {{ user.nickname }}>
+    Admin = {{ user.admin }}
+    Allow = {{ v_znc_allow_ip }}
+    AltNick = {{ user.nickname_alt }}
+    AppendTimestamp = true
+    AutoClearChanBuffer = true
+    Buffer = {{ v_znc_max_buffer }}
+    ChanModes = +stn
+    DenyLoadMod = false
+    DenySetBindHost = false
+    Ident = {{ user.nickname }}
+    JoinTries = 10
+    MaxJoins = 0
+    MaxNetworks = 5
+    MultiClients = true
+    Nick = {{ user.nickname }}
+    PrependTimestamp = false
+    QuitMsg = {{ user.quit_msg }}
+    RealName = {{ user.nickname }}
+    TimestampFormat = [%H:%M:%S]
+    Timezone = 0.0
+
+{% if user.networks is defined %}
+{% for network in user.networks %}
+    <Network {{ network.name }}>
+        FloodBurst = 4
+        FloodRate = 1.00
+        IRCConnectEnabled = false
+{% if network.modules is defined %}
+{% for module in network.modules %}
+        LoadModule = {{ module }}
+{% endfor %}
+        Server = {{ network.server }}
+    </Network>
+{% endfor %}
+
+    <Pass password>
+        Hash = {{ user.hash }}
+        Method = SHA256
+        Salt = {{ user.salt }}
+    </Pass>
+</User>
+{% endfor %}
