@@ -1,0 +1,32 @@
+---
+- name: install znc
+  yum: name=znc state=present
+  tags:
+    - znc
+    - yum
+
+- name: create znc directories
+  file: path={{ item.path }}
+    state=directory
+    owner=znc group=znc mode={{ item.mode }}
+  with_items:
+    - { path: "{{ v_znc_data_directory }}", mode: "0755" }
+    - { path: "{{ v_znc_data_directory }}/configs", mode: "0700" }
+  tags:
+    - znc
+
+- name: generate a pemfile for use with SSL
+  command: znc --makepem --datadir {{ v_znc_data_directory }}
+  become_user: znc
+  tags:
+    - znc
+
+- name: copy znc.conf template
+  template: src=znc.conf.j2
+    dest={{ v_znc_data_directory }}/configs
+    backup=no
+    owner=znc group=znc mode=0600
+  notify:
+    - enable and restart znc
+  tags:
+    - znc
