@@ -10,6 +10,7 @@ OS type(s):
 # Role Variables
 
 Set the colour of the bash prompt to red, yellow or green with `v_environment`:
+
 - production = red
 - staging = yellow
 - development = green (default)
