@@ -1,19 +1,21 @@
 ---
 # append all existing files with _delete
-- name: delete old files
-  shell: find /etc/sudoers.d/ -type f ! -name "custom" -exec mv {} {}_delete \;
+- name: rename old files
+  shell: find /etc/sudoers.d/ -type f -exec mv {} 99_{}_delete \;
   tags:
     - sudo
 
-# add custom additions to sudoers
+# add custom additions to /etec/sudoers.d/
 - name: add custom changes to sudoers.d
   template:
-    src: custom.j2
-    dest: /etc/sudoers.d/custom
+    src: {{ item }}
+    dest: /etc/sudoers.d/{{ item | basename | regex_replace('\.j2','') }}
     owner: root
     group: root
     mode: 0440
     validate: visudo -cf %s
+  - with_fileglob:
+    - ../templates/*.j2
   tags:
     - sudo
 

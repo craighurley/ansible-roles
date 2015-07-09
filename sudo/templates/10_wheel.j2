@@ -1,0 +1,7 @@
+## {{ ansible_managed }}
+
+## Allow users in group wheel to run all commands with a password
+%wheel          ALL=(ALL)       ALL
+
+## Allow users in group wheel to run the following aliases without a password
+%wheel          ALL=NOPASSWD:   YUM_PARTIAL, READ_LOGS
