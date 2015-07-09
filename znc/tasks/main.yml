@@ -24,7 +24,6 @@
 - name: copy znc.conf template
   template: src=znc.conf.j2
     dest={{ v_znc_data_directory }}/configs
-    backup=no
     owner=znc group=znc mode=0600
   notify:
     - enable and restart znc
