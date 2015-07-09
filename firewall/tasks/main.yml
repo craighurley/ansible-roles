@@ -25,7 +25,6 @@
 - name: copy iptables template
   template: src=iptables.j2
     dest={{ v_firewall_config }}
-    backup=no
     owner=0 group=0 mode=0700
   notify:
     - restart iptables
