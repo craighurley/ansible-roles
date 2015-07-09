@@ -7,14 +7,11 @@
 
 # add custom additions to /etec/sudoers.d/
 - name: add custom changes to sudoers.d
-  template:
-    src: {{ item }}
-    dest: /etc/sudoers.d/{{ item | basename | regex_replace('\.j2','') }}
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  - with_fileglob:
+  template: src={{ item }}
+    dest=/etc/sudoers.d/{{ item | basename | regex_replace('\.j2','') }}
+    owner=0 group=0 mode=0440
+    validate='visudo -cf %s'
+  with_fileglob:
     - ../templates/*.j2
   tags:
     - sudo
