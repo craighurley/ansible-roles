@@ -15,15 +15,19 @@ None.
 
 - Server restart: adding an additional port to the type ssh_port_t cannot be done until after selinux is enabled and the server restarted.  It's safe to re-run the tasks in this role after the restart to make this change.
 
-    ansible-playbook playboook.yml -i inventory.file --tags="selinux"
+```bash
+ansible-playbook playboook.yml -i inventory.file --tags="selinux"
+```
 
 # Example Playbook
 
-    - hosts: all
-      sudo: yes
-      gather_facts: yes
-      roles:
-         - selinux
+```yaml
+- hosts: all
+  sudo: yes
+  gather_facts: yes
+  roles:
+     - selinux
+```
 
 # TODO
 
