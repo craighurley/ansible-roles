@@ -31,12 +31,17 @@
     - users
     - keys
 
+- name: get current user
+  shell: whoami
+  sudo: no
+  register: current_user
+
 - name: delete users
   user: name={{ item.username }}
     state=absent
   with_items:
     - "{{ v_private_users_delete }}"
-  when: item.username is defined
-  no_log: true
+  when: (item.username is defined) and (current_user.stdout.find('{{ item.username }}') == -1)
+  no_log: false
   tags:
     - users
