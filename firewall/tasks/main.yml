@@ -1,6 +1,7 @@
 ---
 - name: disable ipv6
-  lineinfile: dest=/etc/sysctl.conf line="net.ipv6.conf.all.disable_ipv6 = 1"
+  lineinfile: dest=/etc/sysctl.conf
+    line="net.ipv6.conf.all.disable_ipv6 = 1"
   notify:
     - reload sysctl.conf
   tags:

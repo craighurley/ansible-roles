@@ -53,9 +53,11 @@ Version = 1.6
 {% for module in network.modules %}
         LoadModule = {{ module }}
 {% endfor %}
+{% endif %}
         Server = {{ network.server }}
     </Network>
 {% endfor %}
+{% endif %}
 
     <Pass password>
         Hash = {{ user.hash }}

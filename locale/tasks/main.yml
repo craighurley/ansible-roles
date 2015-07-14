@@ -1,10 +1,26 @@
 ---
+- name: get current locale
+  command: localectl status
+  register: current_locale
+  changed_when: current_locale.rc != 0
+  tags:
+    - locale
+
 - name: set locale
   command: localectl set-locale LANG="{{ v_locale }}"
+  when: current_locale.stdout.find('{{ v_locale }}') == -1
+  tags:
+    - locale
+
+- name: get current timezone
+  command: timedatectl status
+  register: current_timezone
+  changed_when: current_timezone.rc != 0
   tags:
     - locale
 
 - name: set timezone
   command: timedatectl set-timezone "{{ v_time_zone }}"
+  when: current_timezone.stdout.find('{{ v_time_zone }}') == -1
   tags:
     - locale

@@ -1,7 +1,9 @@
 ---
 # skeleton
 - name: configure bash for skel
-  copy: "src={{ item }} dest=/etc/skel/{{ item }} owner=root group=root mode=0644"
+  copy: src={{ item }}
+    dest=/etc/skel/{{ item }}
+    owner=root group=root mode=0644
   with_items:
     - .aliases
     - .bash_profile
@@ -23,7 +25,9 @@
 
 # root
 - name: configure bash for root
-  copy: "src={{ item }} dest=/root/{{ item }} owner=root group=root mode=0644"
+  copy: src={{ item }}
+    dest=/root/{{ item }}
+    owner=root group=root mode=0644
   with_items:
     - .aliases
     - .bash_profile
@@ -45,7 +49,7 @@
 
 # current user
 - name: get current user
-  shell: whoami
+  command: whoami
   sudo: no
   register: current_user
   changed_when: current_user.rc != 0
@@ -53,7 +57,9 @@
     - bash
 
 - name: configure bash for current user
-  copy: "src={{ item }} dest=/home/{{ current_user.stdout }}/{{ item }} owner={{ current_user.stdout }} group={{ current_user.stdout }} mode=0644"
+  copy: src={{ item }}
+    dest=/home/{{ current_user.stdout }}/{{ item }}
+    owner={{ current_user.stdout }} group={{ current_user.stdout }} mode=0644
   with_items:
     - .aliases
     - .bash_profile
