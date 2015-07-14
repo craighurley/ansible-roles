@@ -15,6 +15,7 @@
 - name: check if selinux is enabled
   command: getenforce
   register: sestatus
+  changed_when: sestatus.rc != 0
   tags:
     - selinux
 
@@ -22,6 +23,7 @@
   shell: semanage port -l | grep ssh
   register: ssh_allowed_ports
   when: (sestatus.stdout.find('Enforcing') != -1)
+  changed_when: ssh_allowed_ports.rc != 0
   tags:
     - selinux
 

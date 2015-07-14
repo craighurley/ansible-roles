@@ -16,7 +16,6 @@
   with_items:
     - "{{ v_private_users }}"
   when: item.username is defined
-  no_log: true
   tags:
     - users
 
@@ -26,7 +25,6 @@
   with_items:
     - "{{ v_private_users }}"
   when: item.key is defined
-  no_log: true
   tags:
     - users
     - keys
@@ -35,6 +33,9 @@
   shell: whoami
   sudo: no
   register: current_user
+  changed_when: current_user.rc != 0
+  tags:
+    - users
 
 - name: delete users
   user: name={{ item.username }}
@@ -42,6 +43,5 @@
   with_items:
     - "{{ v_private_users_delete }}"
   when: (item.username is defined) and (current_user.stdout.find('{{ item.username }}') == -1)
-  no_log: false
   tags:
     - users
