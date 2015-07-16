@@ -5,9 +5,9 @@
 # staging = yellow
 # development = green (default)
 {% if v_environment|lower == "production" %}
-export PS1="\[$(tput setaf 1)\]\n\u@\h (production): \w\n\\$ \[$(tput sgr0)\]"
+export PS1="\n\u@\h \[$(tput setaf 1)\](production)\[$(tput sgr0)\]: \w\n\\$ "
 {% elif v_environment|lower == "staging" %}
-export PS1="\[$(tput setaf 3)\]\n\u@\h (staging): \w\n\\$ \[$(tput sgr0)\]"
+export PS1="\n\u@\h \[$(tput setaf 3)\](staging)\[$(tput sgr0)\]: \w\n\\$ "
 {% else %}
-export PS1="\[$(tput setaf 2)\]\n\u@\h (development): \w\n\\$ \[$(tput sgr0)\]"
+export PS1="\n\u@\h \[$(tput setaf 2)\](development)\[$(tput sgr0)\]: \w\n\\$ "
 {% endif %}
