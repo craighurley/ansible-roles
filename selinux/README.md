@@ -1,6 +1,8 @@
 # Ansible role: selinux
 
-Enable and apply various settings to selinux.
+Enable and apply various settings to SELINUX.
+
+If SELINUX is not enabled, this role will enable SELINUX and then restart the server, before proceeding.
 
 # Requirements
 
@@ -13,11 +15,7 @@ None.
 
 # Dependencies
 
-- Server restart: adding an additional port to the type ssh_port_t cannot be done until after selinux is enabled and the server restarted.  It's safe to re-run the tasks in this role after the restart to make this change.
-
-```bash
-ansible-playbook playboook.yml -i inventory.file --tags="selinux"
-```
+None.
 
 # Example Playbook
 

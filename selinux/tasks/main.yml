@@ -1,9 +1,4 @@
 ---
-- name: enable selinux
-  selinux: policy=targeted state={{ v_selinux_state }}
-  tags:
-    - selinux
-
 - name: install selinux related packages
   yum: name={{ item }} state=present
   with_items:
@@ -12,16 +7,52 @@
     - selinux
     - yum
 
-- name: check if selinux is enabled
+- name: get selinux mode
   command: getenforce
-  register: sestatus
-  changed_when: sestatus.rc != 0
+  register: selinux_mode
+  changed_when: selinux_mode.rc != 0
+
+- name: configure selinux mode
+  selinux: policy=targeted state={{ v_selinux_mode }}
+  when: selinux_mode.stdout.find('{{ v_selinux_mode|capitalize }}') == -1
+  register: selinux_mode_changed
+  tags:
+    - selinux
+
+- name: restart server
+  command: shutdown -r +1 "Restart triggered by Ansible"
+  when: selinux_mode_changed|changed
+  register: restart_status
+  changed_when: restart_status.rc != 0
+  async: 0
+  poll: 0
+  tags:
+    - selinux
+
+- name: wait for server to restart
+  local_action:
+    module: wait_for
+      host={{ ansible_ssh_host }}
+      port={{ ansible_ssh_port }}
+      delay={{ v_selinux_restart_delay }}
+      timeout={{ v_selinux_restart_timeout }}
+  sudo: no
+  when: selinux_mode_changed|changed
+  tags:
+    - selinux
+
+- name: get selinux mode
+  command: getenforce
+  register: selinux_mode
+  changed_when: selinux_mode.rc != 0
   tags:
     - selinux
 
 - name: add additional ports to a selinux type
   shell: "semanage port -m -t {{ item.type }} -p {{ item.protocol }} {{ item.port }}"
-  when: (sestatus.stdout.find('Enforcing') != -1) and (item.type is defined and item.protocol is defined and item.port is defined)
+  when:
+    - selinux_mode.stdout.find('{{ v_selinux_mode|capitalize }}') != -1
+    - v_selinux_ports is defined
   with_items:
     - "{{ v_selinux_ports }}"
   ignore_errors: yes
