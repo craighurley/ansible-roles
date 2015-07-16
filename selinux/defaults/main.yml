@@ -1,6 +1,6 @@
 ---
 # this should be "enforcing", "permissive" or "disabled"
-v_selinux_state: enforcing
+v_selinux_mode: enforcing
 
 v_selinux_yum_packages:
   - policycoreutils-python
@@ -11,3 +11,6 @@ v_selinux_ports:
   - type: ssh_port_t
     protocol: tcp
     port: 443
+
+v_selinux_restart_delay: 60
+v_selinux_restart_timeout: 300
