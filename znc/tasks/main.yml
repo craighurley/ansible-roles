@@ -15,9 +15,18 @@
   tags:
     - znc
 
+- name: check if {{ v_znc_ssl_cert }} exists
+  command: find {{ v_znc_ssl_cert }}
+  register: v_znc_ssl_cert_exists
+  changed_when: v_znc_ssl_cert_exists.rc == -1
+  failed_when: v_znc_ssl_cert_exists.rc == -1
+  tags:
+    - znc
+
 - name: generate a pemfile for use with SSL
   command: znc --makepem --datadir {{ v_znc_data_directory }}
   become_user: znc
+  when: v_znc_overwrite_ssl_cert or v_znc_ssl_cert_exists.rc != 0
   tags:
     - znc
 
