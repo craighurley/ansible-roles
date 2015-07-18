@@ -11,6 +11,8 @@
   command: getenforce
   register: selinux_mode
   changed_when: selinux_mode.rc != 0
+  tags:
+    - selinux
 
 - name: configure selinux mode
   selinux: policy=targeted state={{ v_selinux_mode }}
@@ -22,8 +24,6 @@
 - name: restart server
   command: shutdown -r +1 "Restart triggered by Ansible"
   when: selinux_mode_changed|changed
-  register: restart_status
-  changed_when: restart_status.rc != 0
   async: 0
   poll: 0
   tags:
@@ -51,7 +51,7 @@
 - name: add additional ports to a selinux type
   shell: "semanage port -m -t {{ item.type }} -p {{ item.protocol }} {{ item.port }}"
   when:
-    - selinux_mode.stdout.find('{{ v_selinux_mode|capitalize }}') != -1
+    - selinux_mode.stdout.find('Enforcing') != -1
     - v_selinux_ports is defined
   with_items:
     - "{{ v_selinux_ports }}"
