@@ -4,6 +4,7 @@ v_yum_common_packages:
   - git
   - lsof
   - nano
+  - net-tools
   - nmap
   - tmux
   - tree
