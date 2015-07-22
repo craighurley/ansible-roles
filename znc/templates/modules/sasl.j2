@@ -1,0 +1,7 @@
+mechanisms DH%2d;BLOWFISH%20;PLAIN
+{% if v_znc_user.network.password is defined %}
+password {{ v_znc_user.network.password }}
+{% else %}
+password
+{% endif %}
+username {{ v_znc_user.nickname }}

@@ -5,13 +5,32 @@
     - znc
     - yum
 
-- name: create znc directories
+- name: create main znc directories
   file: path={{ item.path }}
     state=directory
     owner=znc group=znc mode={{ item.mode }}
   with_items:
     - { path: "{{ v_znc_data_directory }}", mode: "0755" }
     - { path: "{{ v_znc_data_directory }}/configs", mode: "0700" }
+    - { path: "{{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata", mode: "0700" }
+  tags:
+    - znc
+
+- name: create module directories
+  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item }}
+    state=directory
+    owner=znc group=znc mode=0700
+  with_items:
+    - "{{ v_znc_user.network.modules }}"
+  tags:
+    - znc
+
+- name: add templated module configuration files
+  template: src={{ item }}
+    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item | basename | regex_replace('\.j2','') }}/.registry
+    owner=znc group=znc mode=0600
+  with_fileglob:
+    - ../templates/modules/*.j2
   tags:
     - znc
 
@@ -23,8 +42,8 @@
   tags:
     - znc
 
-- name: generate a pemfile for use with SSL
-  command: znc --makepem --datadir {{ v_znc_data_directory }}
+- name: generate certificate
+  shell: HOSTNAME={{ ansible_ssh_host }} znc --makepem --datadir {{ v_znc_data_directory }}
   become_user: znc
   when: v_znc_overwrite_ssl_cert or v_znc_ssl_cert_exists.rc != 0
   tags:
