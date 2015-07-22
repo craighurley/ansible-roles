@@ -3,6 +3,7 @@ v_yum_common_packages:
   - bash-completion
   - git
   - lsof
+  - mailx
   - nano
   - net-tools
   - nmap
@@ -11,8 +12,8 @@ v_yum_common_packages:
   - yum-cron
 
 v_yum_cron_service: yum-cron
-v_yum_cron_config: /etc/yum/yum-cron.conf
-v_yum_cron_update_cmd: "minimal-security"
+v_yum_cron_update_cmd: "minimal"
+v_yum_cron_update_cmd_hourly: "security"
 v_yum_cron_update_messages: "yes"
 v_yum_cron_download_updates: "yes"
 v_yum_cron_apply_updates: "yes"
