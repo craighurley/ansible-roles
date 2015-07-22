@@ -69,6 +69,8 @@
     - .inputrc
     - .path
     - .tmux.conf
+  when:
+    - current_user.stdout.find('root') == -1
   tags:
     - bash
 
@@ -76,5 +78,7 @@
   template: src=.bash_prompt.j2
     dest=/home/{{ current_user.stdout }}/.bash_prompt
     owner={{ current_user.stdout }} group={{ current_user.stdout }} mode=0644
+  when:
+    - current_user.stdout.find('root') == -1
   tags:
     - bash

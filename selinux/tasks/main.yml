@@ -51,7 +51,7 @@
 - name: add additional ports to a selinux type
   shell: "semanage port -m -t {{ item.type }} -p {{ item.protocol }} {{ item.port }}"
   when:
-    - selinux_mode.stdout.find('Enforcing') != -1
+    - selinux_mode.stdout.find('Disabled') == -1
     - v_selinux_ports is defined
   with_items:
     - "{{ v_selinux_ports }}"

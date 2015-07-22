@@ -26,55 +26,59 @@ Version = 1.6.0
     SSL = true
 </Listener>
 
-{% for user in v_znc_users %}
-<User {{ user.nickname }}>
-    Admin = {{ user.admin|lower }}
+<User {{ v_znc_user.nickname }}>
+    Admin = {{ v_znc_user.admin|lower }}
     Allow = {{ v_znc_allow_ip }}
-    AltNick = {{ user.nickname_alt }}
+    AltNick = {{ v_znc_user.nickname_alt }}
     AppendTimestamp = true
     AutoClearChanBuffer = true
     AutoClearQueryBuffer = true
     Buffer = {{ v_znc_max_buffer }}
     ChanModes = +stn
-    DenyLoadMod = false
+{% if v_znc_user.modules is defined %}
+{% for usermodule in v_znc_user.modules %}
+    LoadModule = {{ usermodule }}
+{% endfor %}
+{% endif %}
+    DenyLoadMod = {{ v_znc_user.denyloadmodules|lower }}
     DenySetBindHost = false
-    Ident = {{ user.nickname }}
+    Ident = {{ v_znc_user.nickname }}
     JoinTries = 10
     MaxJoins = 0
     MaxNetworks = 5
     MaxQueryBuffers = 50
     MultiClients = true
-    Nick = {{ user.nickname }}
+    Nick = {{ v_znc_user.nickname }}
     PrependTimestamp = false
-    QuitMsg = {{ user.quit_msg }}
-    RealName = {{ user.nickname }}
+    QuitMsg = {{ v_znc_user.quit_msg }}
+    RealName = {{ v_znc_user.nickname }}
     TimestampFormat = [%H:%M:%S]
-    Timezone = {{ user.timezone }}
+    Timezone = {{ v_znc_user.timezone }}
 
-{% if user.networks is defined %}
-{% for network in user.networks %}
-    <Network {{ network.name }}>
+{% if v_znc_user.network is defined %}
+    <Network {{ v_znc_user.network.name }}>
         FloodBurst = 4
         FloodRate = 1.00
         IRCConnectEnabled = true
         JoinDelay = 0
-{% if network.modules is defined %}
-{% for module in network.modules %}
-        LoadModule = {{ module }}
+{% if v_znc_user.network.modules is defined %}
+{% for networkmodule in v_znc_user.network.modules %}
+        LoadModule = {{ networkmodule }}
 {% endfor %}
 {% endif %}
-        Server = {{ network.server }}
-
-        <Chan ##phatypus>
+        Server = {{ v_znc_user.network.server }}
+{% if v_znc_user.network.channels is defined %}
+{% for channel in v_znc_user.network.channels %}
+        <Chan {{ channel }}>
         </Chan>
-    </Network>
 {% endfor %}
+{% endif %}
+    </Network>
 {% endif %}
 
     <Pass password>
         Method = sha256
-        Hash = {{ user.hash }}
-        Salt = {{ user.salt }}
+        Hash = {{ v_znc_user.hash }}
+        Salt = {{ v_znc_user.salt }}
     </Pass>
 </User>
-{% endfor %}
