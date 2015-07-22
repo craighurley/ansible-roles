@@ -5,6 +5,7 @@ v_selinux_mode: enforcing
 v_selinux_yum_packages:
   - policycoreutils-python
   - setroubleshoot
+  - setools-console
 
 # Additional port type port assignments
 v_selinux_ports:
