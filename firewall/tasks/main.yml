@@ -1,11 +1,24 @@
 ---
-- name: disable ipv6
+- name: disable ipv6 in /etc/sysctl.conf
   lineinfile: dest=/etc/sysctl.conf
-    line="net.ipv6.conf.all.disable_ipv6 = 1"
+    line="{{ item }}"
+  with_items:
+    - "net.ipv6.conf.all.disable_ipv6 = 1"
+    - "net.ipv6.conf.default.disable_ipv6 = 1"
   notify:
     - reload sysctl.conf
   tags:
     - firewall
+    - ipv6
+
+- name: remove references to ipv6 in /etc/hosts
+  replace: dest=/etc/hosts
+    regexp='^(::1)(\s+.*)?$'
+    replace='#\1\2'
+    backup=yes
+  tags:
+    - firewall
+    - ipv6
 
 - name: install iptables services
   yum: name=iptables-services state=present
