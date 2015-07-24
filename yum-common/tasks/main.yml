@@ -47,3 +47,4 @@
     - restart yum-cron
   tags:
     - yum
+    - yum-cron
