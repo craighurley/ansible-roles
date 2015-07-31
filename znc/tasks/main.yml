@@ -16,8 +16,17 @@
   tags:
     - znc
 
-- name: create module directories
-  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item }}
+- name: create user module directories
+  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name }}
+    state=directory
+    owner=znc group=znc mode=0700
+  with_items:
+    - "{{ v_znc_user.modules }}"
+  tags:
+    - znc
+
+- name: create network module directories
+  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name }}
     state=directory
     owner=znc group=znc mode=0700
   with_items:
@@ -25,12 +34,23 @@
   tags:
     - znc
 
-- name: add templated module configuration files
-  template: src={{ item }}
-    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item | basename | regex_replace('\.j2','') }}/.registry
+- name: add templated user module configuration files
+  template: src="user_modules/{{ item.name }}.j2"
+    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name | basename }}/.registry
     owner=znc group=znc mode=0600
-  with_fileglob:
-    - ../templates/modules/*.j2
+  with_items:
+    - "{{ v_znc_user.modules }}"
+  when: item.template
+  tags:
+    - znc
+
+- name: add templated network module configuration files
+  template: src="network_modules/{{ item.name }}.j2"
+    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name | basename }}/.registry
+    owner=znc group=znc mode=0600
+  with_items:
+    - "{{ v_znc_user.network.modules }}"
+  when: item.template
   tags:
     - znc
 

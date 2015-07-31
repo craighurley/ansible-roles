@@ -29,6 +29,8 @@ OS type(s):
 --- `name`: The IRC network name.
 --- `server`: The IRC network server including the port, for example: "chat.freenode.net +7070"
 --- `modules`: An array of ZNC modules to load.
+---- `name`: The name of the module.
+---- `template`: Boolean indicating if the module has a template.
 
 ## Notes
 
