@@ -22,15 +22,18 @@ v_znc_user:
   hash: 5881c6080a181ac21c181b3edd4dc339f13cbb0d157f13008f250e9b927efdd1
   timezone: Pacific/Auckland
   modules:
-    - chansaver
+    - name: chansaver
+      template: no
   network:
     name: freenode
     server: "chat.freenode.net +7070"
     password: secret
     modules:
-      - block_motd
-      - keepnick
-      - perform
-      - sasl
+      - name: block_motd
+        template: no
+      - name: keepnick
+        template: no
+      - name: perform
+        template: yes
     channels:
       - "#freenode"

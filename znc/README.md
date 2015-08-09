@@ -25,10 +25,15 @@ OS type(s):
 -- `timezone`: The users timezone.
 -- `salt`: A random salt.
 -- `hash`: A hash (SHA256) of the password + `salt`.
+-- `modules`: An array of user modules to load.
+--- `name`: The name of the user module.
+--- `template`: Boolean indicating if the user module has a template.
 -- `networks`: An array of objects that how ZNC behaves on a given network
 --- `name`: The IRC network name.
 --- `server`: The IRC network server including the port, for example: "chat.freenode.net +7070"
---- `modules`: An array of ZNC modules to load.
+--- `modules`: An array of network modules to load.
+---- `name`: The name of the network module.
+---- `template`: Boolean indicating if the network module has a template.
 
 ## Notes
 

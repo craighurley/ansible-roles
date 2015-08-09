@@ -37,7 +37,7 @@ Version = 1.6.0
     ChanModes = +stn
 {% if v_znc_user.modules is defined %}
 {% for usermodule in v_znc_user.modules %}
-    LoadModule = {{ usermodule }}
+    LoadModule = {{ usermodule.name }}
 {% endfor %}
 {% endif %}
     DenyLoadMod = {{ v_znc_user.denyloadmodules|lower }}
@@ -63,7 +63,7 @@ Version = 1.6.0
         JoinDelay = 0
 {% if v_znc_user.network.modules is defined %}
 {% for networkmodule in v_znc_user.network.modules %}
-        LoadModule = {{ networkmodule }}
+        LoadModule = {{ networkmodule.name }}
 {% endfor %}
 {% endif %}
         Server = {{ v_znc_user.network.server }}

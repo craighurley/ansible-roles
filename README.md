@@ -20,15 +20,17 @@ Your main playbook could look something like this:
     - "./vars/private/znc.yml"
 
   roles:
-    # ssh depends on users, users depends on bash
-    - ssh
     - locale
-    - sudo
     - yum-update
     - yum-common
-    - selinux
+    - yum-cron
     - ntp
+    - bash
+    - users
+    - ssh
+    - sudo
     - firewall
+    - selinux
     - znc
 ```
 
