@@ -1,6 +1,6 @@
 # Ansible role: yum-common
 
-Configure yum: add EPEL, install common packages, enable auto security updates.
+Configure yum: add EPEL, install common packages.
 
 # Requirements
 
@@ -10,7 +10,6 @@ OS type(s):
 # Role Variables
 
 `v_yum_packages`, a list of packages to install.
-`v_yum_cron_*`, yum-cron settings.
 
 # Dependencies
 
