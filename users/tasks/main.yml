@@ -42,6 +42,6 @@
     state=absent
   with_items:
     - "{{ v_private_users_delete }}"
-  when: (item.username is defined) and (current_user.stdout.find('{{ item.username }}') == -1)
+  when: (item.username is defined) and (current_user.stdout.find('{{ item.username|default("") }}') == -1)
   tags:
     - users
