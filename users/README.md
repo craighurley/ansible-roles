@@ -9,7 +9,7 @@ OS type(s):
 
 # Role Variables
 
-This role requires `v_private_users` to be configured in `./vars/private/users.yml`.  For example:
+This role requires `v_private_users` to be configured in `./vars/private/users.yaml`.  For example:
 
 ```yaml
 v_private_users:
@@ -22,7 +22,7 @@ v_private_users:
     password: "$6$rounds=100000$pxo3TtGDUjvgQ0gh$yeYhyLHtHO7zR2U9GUWMoHaByvQCj410diEofYr/OsHgnEBJ3XATSGghTK41YdKnhroiEsCEsTZxuTPWxOX/h/"
 ```
 
-You can also delete users by adding a list of usernames to `v_private_users_delete` in `./vars/private/users.yml`.  For example:
+You can also delete users by adding a list of usernames to `v_private_users_delete` in `./vars/private/users.yaml`.  For example:
 
 ```yaml
 v_private_users_delete:
@@ -63,7 +63,7 @@ See the [bash readme](../bash/) for more information on how to configure users.
   sudo: yes
   gather_facts: yes
   vars_files:
-    - "./private/vars/users.yml"
+    - "./private/vars/users.yaml"
   roles:
      - users
 ```

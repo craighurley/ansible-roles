@@ -6,7 +6,7 @@ A collection of Ansible roles.
 
 # Examples
 
-## playbook.yml
+## playbook.yaml
 
 Your main playbook could look something like this:
 
@@ -16,8 +16,8 @@ Your main playbook could look something like this:
   sudo: yes
   gather_facts: yes
   vars_files:
-    - "./vars/private/users.yml"
-    - "./vars/private/znc.yml"
+    - "./vars/private/users.yaml"
+    - "./vars/private/znc.yaml"
 
   roles:
     - locale
@@ -39,5 +39,5 @@ Your main playbook could look something like this:
 To run the example playbook, you would issue something similar to this:
 
 ```bash
-ansible-playbook playbook.yml -i inventory
+ansible-playbook playbook.yaml -i inventory
 ```

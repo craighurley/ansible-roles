@@ -23,7 +23,7 @@ None.
       roles:
          - yum-update
 
-    ansible-playbook ansible/update.yml -i ./path/to/inventory --user=johndoe --private-key=./path/to/id_rsa
+    ansible-playbook ansible/update.yaml -i ./path/to/inventory --user=johndoe --private-key=./path/to/id_rsa
 
 # TODO
 
