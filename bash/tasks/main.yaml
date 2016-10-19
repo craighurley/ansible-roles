@@ -50,7 +50,6 @@
 # current user
 - name: get current user
   command: whoami
-  sudo: no
   register: current_user
   changed_when: current_user.rc != 0
   tags:

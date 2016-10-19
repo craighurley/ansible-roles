@@ -36,7 +36,6 @@
       port={{ ansible_ssh_port }}
       delay={{ v_selinux_restart_delay }}
       timeout={{ v_selinux_restart_timeout }}
-  sudo: no
   when: selinux_mode_changed|changed
   tags:
     - selinux
