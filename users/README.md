@@ -60,7 +60,7 @@ See the [bash readme](../bash/) for more information on how to configure users.
 
 ```yaml
 - hosts: all
-  sudo: yes
+  become: true
   gather_facts: yes
   vars_files:
     - "./private/vars/users.yaml"

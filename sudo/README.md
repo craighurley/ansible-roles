@@ -18,7 +18,7 @@ None.
 # Example Playbook
 
     - hosts: all
-      sudo: yes
+      become: true
       gather_facts: yes
       roles:
          - sudo

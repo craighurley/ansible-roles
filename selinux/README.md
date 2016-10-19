@@ -21,7 +21,7 @@ None.
 
 ```yaml
 - hosts: all
-  sudo: yes
+  become: true
   gather_facts: yes
   roles:
      - selinux

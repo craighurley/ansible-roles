@@ -13,7 +13,7 @@ Your main playbook could look something like this:
 ```yaml
 ---
 - hosts: all
-  sudo: yes
+  become: true
   gather_facts: yes
   vars_files:
     - "./vars/private/users.yaml"
