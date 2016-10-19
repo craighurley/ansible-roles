@@ -22,7 +22,7 @@ None.
 ```yaml
 - hosts: all
   become: true
-  gather_facts: yes
+  gather_facts: true
   roles:
      - selinux
 ```

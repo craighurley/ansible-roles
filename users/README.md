@@ -61,7 +61,7 @@ See the [bash readme](../bash/) for more information on how to configure users.
 ```yaml
 - hosts: all
   become: true
-  gather_facts: yes
+  gather_facts: true
   vars_files:
     - "./private/vars/users.yaml"
   roles:

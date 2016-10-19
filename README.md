@@ -14,7 +14,7 @@ Your main playbook could look something like this:
 ---
 - hosts: all
   become: true
-  gather_facts: yes
+  gather_facts: true
   vars_files:
     - "./vars/private/users.yaml"
     - "./vars/private/znc.yaml"
