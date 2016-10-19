@@ -11,6 +11,7 @@
   command: getenforce
   register: selinux_mode
   changed_when: selinux_mode.rc != 0
+  always_run: true
   tags:
     - selinux
 
@@ -44,6 +45,7 @@
   command: getenforce
   register: selinux_mode
   changed_when: selinux_mode.rc != 0
+  always_run: true
   tags:
     - selinux
 

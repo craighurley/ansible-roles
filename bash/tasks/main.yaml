@@ -52,6 +52,7 @@
   command: whoami
   register: current_user
   changed_when: current_user.rc != 0
+  always_run: true
   tags:
     - bash
 

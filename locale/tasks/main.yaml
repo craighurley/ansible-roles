@@ -3,7 +3,7 @@
   command: localectl status
   register: current_locale
   changed_when: current_locale.rc != 0
-  always_run: yes
+  always_run: true
   tags:
     - locale
 
@@ -17,7 +17,7 @@
   command: timedatectl status
   register: current_timezone
   changed_when: current_timezone.rc != 0
-  always_run: yes
+  always_run: true
   tags:
     - locale
 
