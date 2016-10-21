@@ -6,7 +6,7 @@ A collection of Ansible roles.
 
 ## Examples
 
-## playbook.yaml
+### playbook.yaml
 
 Your main playbook could look something like this:
 
@@ -34,10 +34,10 @@ Your main playbook could look something like this:
     - znc
 ```
 
-## Running
+### Running
 
 To run the example playbook, you would issue something similar to this:
 
-```bash
+```sh
 ansible-playbook playbook.yaml -i inventory
 ```

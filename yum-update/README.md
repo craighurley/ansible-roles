@@ -26,7 +26,7 @@ None.
     - yum-update
 ```
 
-```bash
+```sh
 ansible-playbook ansible/update.yaml -i ./path/to/inventory --user=johndoe --private-key=./path/to/id_rsa
 ```
 

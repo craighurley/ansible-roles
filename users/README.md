@@ -35,19 +35,19 @@ Note: the deleted users home directory is not removed, so numeric user ids are n
 
 To create the password value, the mkpasswd utility that is available on most Linux systems is a great option:
 
-```bash
+```sh
 mkpasswd --method=SHA-512
 ```
 
 If this utility is not installed on your system (e.g. you are using OS X) then you can still easily generate these passwords using Python.  First, ensure that the Passlib password hashing library is installed.
 
-```bash
+```sh
 pip install passlib
 ```
 
 Once the library is ready, SHA512 password values can then be generated as follows:
 
-```bash
+```sh
 python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
 ```
 

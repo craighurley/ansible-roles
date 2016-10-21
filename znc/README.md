@@ -42,13 +42,13 @@ OS type(s):
 
 You can create a 20 character random salt as follows:
 
-```bash
+```sh
 openssl rand -base64 15
 ```
 
 To create the salted hash, you can do something like this:
 
-```bash
+```sh
 echo -n passwordsalt | openssl sha -sha256
 ```
 
