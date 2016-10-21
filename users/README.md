@@ -2,12 +2,13 @@
 
 Add and configure groups and users.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
+
+## Role Variables
 
 This role requires `v_private_users` to be configured in `./vars/private/users.yaml`.  For example:
 
@@ -38,7 +39,7 @@ To create the password value, the mkpasswd utility that is available on most Lin
 mkpasswd --method=SHA-512
 ```
 
-If this utility is not installed on your system (e.g. you are using OS X) then you can still easily generate these passwords using Python. First, ensure that the Passlib password hashing library is installed.
+If this utility is not installed on your system (e.g. you are using OS X) then you can still easily generate these passwords using Python.  First, ensure that the Passlib password hashing library is installed.
 
 ```bash
 pip install passlib
@@ -50,13 +51,13 @@ Once the library is ready, SHA512 password values can then be generated as follo
 python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
 ```
 
-Source: http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+Source: <http://docs.ansible.com/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module>
 
-# Dependencies
+## Dependencies
 
 See the [bash readme](../bash/) for more information on how to configure users.
 
-# Example Playbook
+## Example Playbook
 
 ```yaml
 - hosts: all
@@ -65,13 +66,13 @@ See the [bash readme](../bash/) for more information on how to configure users.
   vars_files:
     - "./private/vars/users.yaml"
   roles:
-     - users
+    - users
 ```
 
-# TODO
+## TODO
 
 None.
 
-# Author Information
+## Author Information
 
-https://github.com/craighurley/
+<https://github.com/craighurley/>

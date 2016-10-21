@@ -4,33 +4,34 @@ Enable and apply various settings to SELINUX.
 
 If SELINUX is not enabled, this role will enable SELINUX and then restart the server, before proceeding.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
 
-None.
-
-# Dependencies
+## Role Variables
 
 None.
 
-# Example Playbook
+## Dependencies
+
+None.
+
+## Example Playbook
 
 ```yaml
 - hosts: all
   become: true
   gather_facts: true
   roles:
-     - selinux
+    - selinux
 ```
 
-# TODO
+## TODO
 
 None.
 
-# Author Information
+## Author Information
 
-https://github.com/craighurley/
+<https://github.com/craighurley/>

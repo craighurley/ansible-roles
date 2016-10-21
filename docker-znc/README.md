@@ -2,31 +2,34 @@
 
 Install and configure ZNC to run in a docker container.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
+
+## Role Variables
 
 TODO.
 
-# Dependencies
+## Dependencies
 
 None.
 
-# Example Playbook
+## Example Playbook
 
-    - hosts: all
-      become: true
-      gather_facts: true
-      roles:
-         - docker-znc
+```yaml
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - docker-znc
+```
 
-# TODO
+## TODO
 
 None.
 
-# Author Information
+## Author Information
 
-https://github.com/craighurley/
+<https://github.com/craighurley/>

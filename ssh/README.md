@@ -2,32 +2,37 @@
 
 Configure SSH.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
+
+## Role Variables
 
 TODO.
 
-# Dependencies
+## Dependencies
 
-    dependencies:
-      - { role: users }
+```yaml
+dependencies:
+  - { role: users }
+```
 
-# Example Playbook
+## Example Playbook
 
-    - hosts: all
-      become: true
-      gather_facts: true
-      roles:
-         - ssh
+```yaml
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - ssh
+```
 
-# TODO
+## TODO
 
 None.
 
-# Author Information
+## Author Information
 
-https://github.com/craighurley/
+<https://github.com/craighurley/>

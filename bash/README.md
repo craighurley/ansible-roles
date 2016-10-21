@@ -2,35 +2,38 @@
 
 Configure bash for all users.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
+
+## Role Variables
 
 Set the colour of the bash prompt to red, yellow or green with `v_environment`:
 
-- production = red
-- staging = yellow
-- development = green (default)
+* production = red
+* staging = yellow
+* development = green (default)
 
-# Dependencies
-
-None.
-
-# Example Playbook
-
-    - hosts: all
-      become: true
-      gather_facts: true
-      roles:
-         - bash
-
-# TODO
+## Dependencies
 
 None.
 
-# Author Information
+## Example Playbook
 
-https://github.com/craighurley/
+```yaml
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - bash
+```
+
+## TODO
+
+None.
+
+## Author Information
+
+<https://github.com/craighurley/>

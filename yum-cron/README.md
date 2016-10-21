@@ -2,31 +2,34 @@
 
 Install and configure yum-cron.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
+
+## Role Variables
 
 `v_yum_cron_*`, yum-cron settings.
 
-# Dependencies
+## Dependencies
 
 None.
 
-# Example Playbook
+## Example Playbook
 
-    - hosts: all
-      become: true
-      gather_facts: true
-      roles:
-         - yum-cron
+```yaml
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - yum-cron
+```
 
-# TODO
+## TODO
 
 None.
 
-# Author Information
+## Author Information
 
-https://github.com/craighurley/
+<https://github.com/craighurley/>

@@ -2,31 +2,34 @@
 
 Configure sudo.
 
-# Requirements
+## Requirements
 
 OS type(s):
-- RedHat/CentOS
 
-# Role Variables
+* RedHat/CentOS
 
-None.
-
-# Dependencies
+## Role Variables
 
 None.
 
-# Example Playbook
-
-    - hosts: all
-      become: true
-      gather_facts: true
-      roles:
-         - sudo
-
-# TODO
+## Dependencies
 
 None.
 
-# Author Information
+## Example Playbook
 
-https://github.com/craighurley/
+```yaml
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - sudo
+```
+
+## TODO
+
+None.
+
+## Author Information
+
+<https://github.com/craighurley/>
