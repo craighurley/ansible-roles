@@ -1,14 +1,19 @@
 ---
 - name: install znc
-  yum: name=znc state=present
+  yum:
+    name: znc
+    state: present
   tags:
     - znc
     - yum
 
 - name: create main znc directories
-  file: path={{ item.path }}
-    state=directory
-    owner=znc group=znc mode={{ item.mode }}
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: znc
+    group: znc
+    mode: "{{ item.mode }}"
   with_items:
     - { path: "{{ v_znc_data_directory }}", mode: "0755" }
     - { path: "{{ v_znc_data_directory }}/configs", mode: "0700" }
@@ -17,40 +22,54 @@
     - znc
 
 - name: create user module directories
-  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name }}
-    state=directory
-    owner=znc group=znc mode=0700
+  file:
+    path: "{{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name }}"
+    state: directory
+    owner: znc
+    group: znc
+    mode: 0700
   with_items:
     - "{{ v_znc_user.modules }}"
   tags:
     - znc
 
 - name: create network module directories
-  file: path={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name }}
-    state=directory
-    owner=znc group=znc mode=0700
+  file:
+    path: "{{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name }}"
+    state: directory
+    owner: znc
+    group: znc
+    mode: 0700
   with_items:
     - "{{ v_znc_user.network.modules }}"
   tags:
     - znc
 
 - name: add templated user module configuration files
-  template: src="user_modules/{{ item.name }}.j2"
-    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name | basename }}/.registry
-    owner=znc group=znc mode=0600
+  template:
+    src: "user_modules/{{ item.name }}.j2"
+    dest: "{{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/moddata/{{ item.name | basename }}/.registry"
+    owner: znc
+    group: znc
+    mode: 0600
   with_items:
     - "{{ v_znc_user.modules }}"
-  when: item.template
+  when:
+    - item.template
   tags:
     - znc
 
 - name: add templated network module configuration files
-  template: src="network_modules/{{ item.name }}.j2"
-    dest={{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name | basename }}/.registry
-    owner=znc group=znc mode=0600
+  template:
+    src: "network_modules/{{ item.name }}.j2"
+    dest: "{{ v_znc_data_directory }}/users/{{ v_znc_user.nickname }}/networks/{{ v_znc_user.network.name }}/moddata/{{ item.name | basename }}/.registry"
+    owner: znc
+    group: znc
+    mode: 0600
   with_items:
     - "{{ v_znc_user.network.modules }}"
-  when: item.template
+  when:
+    - item.template
   tags:
     - znc
 
@@ -65,14 +84,19 @@
 - name: generate certificate
   shell: HOSTNAME={{ ansible_ssh_host }} znc --makepem --datadir {{ v_znc_data_directory }}
   become_user: znc
-  when: v_znc_overwrite_ssl_cert or v_znc_ssl_cert_exists.rc != 0
+  when:
+    - not ansible_check_mode
+    - v_znc_overwrite_ssl_cert != 0 or v_znc_ssl_cert_exists.rc != 0
   tags:
     - znc
 
 - name: copy znc.conf template
-  template: src=znc.conf.j2
-    dest={{ v_znc_data_directory }}/configs/znc.conf
-    owner=znc group=znc mode=0600
+  template:
+    src: znc.conf.j2
+    dest: "{{ v_znc_data_directory }}/configs/znc.conf"
+    owner: znc
+    group: znc
+    mode: 0600
   notify:
     - enable and restart znc
   tags:

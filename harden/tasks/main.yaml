@@ -1,0 +1,5 @@
+---
+- include: kernel.yaml
+- include: firewall.yaml
+- include: selinux.yaml
+- include: sshd.yaml

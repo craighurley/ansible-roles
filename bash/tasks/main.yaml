@@ -1,49 +1,48 @@
 ---
 # skeleton
 - name: configure bash for skel
-  copy: src={{ item }}
-    dest=/etc/skel/{{ item }}
-    owner=root group=root mode=0644
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/skel/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
   with_items:
     - .aliases
     - .bash_profile
+    - .bash_prompt
     - .bashrc
     - .exports
+    - .functions
+    - .gitconfig
     - .gitignore_global
+    - .gitmessage
     - .inputrc
     - .path
     - .tmux.conf
-  tags:
-    - bash
-
-- name: configure bash prompt for skel
-  template: src=.bash_prompt.j2
-    dest=/etc/skel/.bash_prompt
-    owner=root group=root mode=0644
+    - .wgetrc
   tags:
     - bash
 
 # root
 - name: configure bash for root
-  copy: src={{ item }}
-    dest=/root/{{ item }}
-    owner=root group=root mode=0644
+  copy:
+    src: "{{item }}"
+    dest: "/root/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
   with_items:
     - .aliases
     - .bash_profile
+    - .bash_prompt
     - .bashrc
     - .exports
-    - .gitignore_global
+    - .functions
     - .inputrc
     - .path
     - .tmux.conf
-  tags:
-    - bash
-
-- name: configure bash prompt for root
-  template: src=.bash_prompt.j2
-    dest=/root/.bash_prompt
-    owner=root group=root mode=0644
+    - .wgetrc
   tags:
     - bash
 
@@ -51,33 +50,33 @@
 - name: get current user
   command: whoami
   register: current_user
+  become: no
   changed_when: current_user.rc != 0
-  always_run: true
+  check_mode: no
   tags:
     - bash
 
 - name: configure bash for current user
-  copy: src={{ item }}
-    dest=/home/{{ current_user.stdout }}/{{ item }}
-    owner={{ current_user.stdout }} group={{ current_user.stdout }} mode=0644
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/{{ item }}"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0644
   with_items:
     - .aliases
     - .bash_profile
+    - .bash_prompt
     - .bashrc
     - .exports
+    - .functions
+    - .gitconfig
     - .gitignore_global
+    - .gitmessage
     - .inputrc
     - .path
     - .tmux.conf
-  when:
-    - current_user.stdout.find('root') == -1
-  tags:
-    - bash
-
-- name: configure bash prompt for current user
-  template: src=.bash_prompt.j2
-    dest=/home/{{ current_user.stdout }}/.bash_prompt
-    owner={{ current_user.stdout }} group={{ current_user.stdout }} mode=0644
+    - .wgetrc
   when:
     - current_user.stdout.find('root') == -1
   tags:

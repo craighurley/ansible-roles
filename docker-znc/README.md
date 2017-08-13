@@ -20,8 +20,8 @@ None.
 
 ```yaml
 - hosts: all
-  become: true
-  gather_facts: true
+  become: yes
+  gather_facts: yes
   roles:
     - docker-znc
 ```

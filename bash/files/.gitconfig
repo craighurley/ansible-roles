@@ -1,0 +1,131 @@
+#{{ ansible_managed }}
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore_global
+    attributesfile = ~/.gitattributes
+    pager = cat
+    abbrev = 11
+
+[user]
+    #name = set GIT_COMMITTER_NAME and GIT_AUTHOR_NAME in ~/.extra
+    #email = set EMAIL in ~/.extra
+
+[commit]
+    template = ~/.gitmessage
+
+[pager]
+    log = diff-highlight | less -+S
+    show = diff-highlight | less -+S
+    diff = diff-highlight | less -+S
+
+[color]
+    ui = auto
+
+[color "branch"]
+    current = red reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[push]
+    default = simple
+
+[apply]
+    whitespace = nowarn
+
+[mergetool "vimdiff"]
+    trustExitCode = false
+
+[difftool]
+    prompt = false
+
+[mergetool]
+    prompt = false
+
+[diff]
+    tool = vimdiff
+
+[merge]
+    log = true
+    tool = vimdiff
+
+[filter "lfs"]
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
+
+[alias]
+    # logging
+    l = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%Creset %s %C(bold blue)%an\" --date=relative --no-merges -${1:-15}; }; f"
+    lm = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%Creset %s %C(bold blue)%an\" --date=relative --merges -${1:-15}; }; f"
+    la = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %C(bold blue)%an\" --date=relative -${1:-15}; }; f"
+    # what files changed
+    lf = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %C(bold blue)%an\" --date=relative --no-merges --decorate --numstat -${1:-15}; }; f"
+    # graph everything to the current commit
+    lg = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %C(bold blue)%an\" --date=relative --graph -${1:-15}; }; f"
+    # graph across all branches to the most recent
+    lga = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %C(bold blue)%an\" --date=relative --graph --all --topo-order -${1:-15}; }; f"
+    # focus log on specific user
+    lw = "!f() { git log --pretty=format:\"%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %C(bold blue)%an\" --date=relative --author=${1:-Craig}; }; f"
+    # short log (good for summarising changes)
+    sl = "!f() { git shortlog --no-merges -${1:-15}; }; f"
+    # reflog for current branch (useful for getting the parent commit)
+    rl = "!f() { git reflog show $(git rev-parse --abbrev-ref HEAD) --pretty=format:\"%Cred%h %Cgreen%cd%C(yellow)%d%Creset %gs\" --date=relative; }; f"
+
+    # list all files
+    ls = ls-files
+
+    # show diff for given number of commits
+    d = "!f() { git diff --patch-with-stat HEAD~${1:-0}; }; f"
+    # show all files that changed over the given number of commits
+    df = "!f() { git diff --stat HEAD~${1:-0}; }; f"
+    # show log and diff for given number of commits
+    dl = "!f() { git log -p --no-merges -${1:-1}; }; f"
+
+    # searching
+    g = grep -I
+    # search in file name
+    gf = ! git ls-files | grep
+    # search and replace using gnu-sed
+    sed = ! git grep -Izl '.' | xargs -0 sed -i -e
+
+    # View the current working tree status using the short format
+    s = status -s
+
+    # what tag(s) point at current commit
+    tagged = tag --list --points-at HEAD
+
+    # show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a -v
+    remotes = remote -v
+
+    f = fetch
+    p = pull
+    co = checkout
+
+    # diff/merge tool
+    dt = difftool
+    mt = mergetool
+
+    # conflicts/merges
+    # choose the change(s) from the local
+    ours = "!f() { git checkout --ours $@ && git add $@; }; f"
+    # choose the change(s) from the remote
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
+    # rebase
+    r = "!f() { git rebase -i HEAD~${1:-1}; }; f"
+
+    # committing
+    cnm = commit -m 'no message'

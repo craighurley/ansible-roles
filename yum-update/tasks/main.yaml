@@ -1,11 +1,16 @@
 ---
 - name: clean yum cache
   command: yum clean all
+  args:
+    warn: no
   tags:
     - yum
 
 - name: update packages to the latest version
-  yum: name=* state=latest update_cache=yes
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
   tags:
     - yum
     - update

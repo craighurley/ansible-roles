@@ -20,14 +20,14 @@ None.
 
 ```yaml
 - hosts: all
-  become: true
-  gather_facts: true
+  become: yes
+  gather_facts: yes
   roles:
     - yum-update
 ```
 
 ```sh
-ansible-playbook ansible/update.yaml -i ./path/to/inventory --user=johndoe --private-key=./path/to/id_rsa
+ansible-playbook -i ./path/to/inventory ansible/update.yaml --user=johndoe --private-key=./path/to/id_rsa
 ```
 
 ## TODO

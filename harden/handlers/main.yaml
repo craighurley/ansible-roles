@@ -1,0 +1,29 @@
+---
+#
+# firewall
+#
+- name: restart iptables
+  service:
+    name: iptables
+    state: restarted
+
+#
+# sshd
+#
+- name: find ssh server keys
+  shell: ls -1 /etc/ssh/ssh_host*
+  register: keys
+  check_mode: no
+
+- name: delete ssh server keys
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ keys.stdout_lines }}"
+
+- name: restart ssh
+  service:
+    name: "{{ v_ssh_service }}"
+    enabled: yes
+    state: restarted

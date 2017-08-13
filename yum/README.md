@@ -1,6 +1,7 @@
-# Ansible role: sudo
+# Ansible role: yum-cron
 
-Configure sudo.
+* Configure yum: add EPEL, install common packages.
+* Install and configure yum-cron.
 
 ## Requirements
 
@@ -10,7 +11,8 @@ OS type(s):
 
 ## Role Variables
 
-None.
+`v_yum_packages`, a list of packages to install.
+`v_yum_cron_*`, yum-cron settings.
 
 ## Dependencies
 
@@ -23,7 +25,7 @@ None.
   become: yes
   gather_facts: yes
   roles:
-    - sudo
+    - yum
 ```
 
 ## TODO

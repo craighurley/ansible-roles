@@ -1,0 +1,15 @@
+function start-ssh-agent() {
+    ssh-add -l &>/dev/null
+    if [ "$?" == 2 ]; then
+        test -r ~/.ssh/.ssh-agent && \
+        eval "$(<~/.ssh/.ssh-agent)" >/dev/null
+
+        ssh-add -l &>/dev/null
+        if [ "$?" == 2 ]; then
+            (umask 066; ssh-agent > ~/.ssh/.ssh-agent)
+            eval "$(<~/.ssh/.ssh-agent)" >/dev/null
+            ssh-add ~/.ssh/puppet_id_rsa >/dev/null
+        fi
+    fi
+    ssh-add -l
+}

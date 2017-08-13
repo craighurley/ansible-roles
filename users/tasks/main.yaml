@@ -1,7 +1,8 @@
 ---
 - name: create groups
-  group: name={{ item }}
-    state=present
+  group:
+    name: "{{ item }}"
+    state: present
   with_items:
     - "{{ v_groups }}"
   tags:
@@ -9,22 +10,30 @@
     - groups
 
 - name: create users
-  user: name={{ item.username }}
-    groups={{ item.groups if item.groups is defined else "" }}
-    shell=/bin/bash
-    password={{ item.password if item.password is defined else "!" }}
+  user:
+    name: "{{ item.username }}"
+    groups: "{{ item.groups if item.groups is defined else '' }}"
+    shell: /bin/bash
+    password: "{{ item.password if item.password is defined else '!' }}"
   with_items:
     - "{{ v_private_users }}"
-  when: item.username is defined
+  when:
+    - v_private_users is defined
+    - item.username is defined
   tags:
     - users
 
 - name: add pub keys for users
-  authorized_key: user={{ item.username }}
-    key="{{ lookup('file', item.key) }}"
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ lookup('file', item.key) }}"
   with_items:
     - "{{ v_private_users }}"
-  when: item.key is defined
+  when:
+    - v_private_users is defined
+    - item.username is defined
+    - item.key is defined
+  ignore_errors: "{{ ansible_check_mode }}"
   tags:
     - users
     - keys
@@ -33,15 +42,19 @@
   command: whoami
   register: current_user
   changed_when: current_user.rc != 0
-  always_run: true
+  check_mode: no
   tags:
     - users
 
 - name: delete users
-  user: name={{ item.username }}
-    state=absent
+  user:
+    name: "{{ item.username }}"
+    state: absent
   with_items:
     - "{{ v_private_users_delete }}"
-  when: (item.username is defined) and (current_user.stdout.find('{{ item.username|default("") }}') == -1)
+  when:
+    - v_private_users_delete is defined
+    - item.username is defined
+    - current_user.stdout.find('item.username|default("")') == -1
   tags:
     - users

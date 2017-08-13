@@ -1,0 +1,39 @@
+---
+- name: install core yum packages
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    disablerepo: "*"
+    enablerepo: "base,extras,updates"
+  with_items:
+    - epel-release
+    - yum-plugin-fastestmirror
+    - yum-utils
+  tags:
+    - yum
+
+#- name: disable all repos
+#  command: yum-config-manager --disable "*"
+#  tags:
+#    - yum
+#
+#- name: enable specific repos
+#  command: yum-config-manager --enable {{ item }}
+#  with_items:
+#    - base
+#    - epel
+#    - extras
+#    - updates
+#  tags:
+#    - yum
+
+- name: install common packages
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ v_yum_common_packages }}"
+  tags:
+    - yum

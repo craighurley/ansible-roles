@@ -1,0 +1,70 @@
+---
+- name: install selinux related packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ v_selinux_yum_packages }}"
+  tags:
+    - selinux
+    - yum
+
+- name: get selinux mode
+  command: getenforce
+  register: selinux_mode
+  changed_when: selinux_mode.rc != 0
+  check_mode: no
+  tags:
+    - selinux
+
+- name: configure selinux mode
+  selinux:
+    policy: targeted
+    state: "{{ v_selinux_mode }}"
+  register: selinux_mode_changed
+  when:
+    - selinux_mode.stdout.find('v_selinux_mode|capitalize') == -1
+  tags:
+    - selinux
+
+- name: restart server
+  command: shutdown -r +1 "Restart triggered by Ansible"
+  when:
+    - selinux_mode_changed|changed
+  async: 0
+  poll: 0
+  tags:
+    - selinux
+
+- name: wait for server to restart
+  local_action: wait_for
+  args:
+    host: "{{ ansible_ssh_host }}"
+    port: "{{ ansible_ssh_port }}"
+    delay: "{{ v_selinux_restart_delay }}"
+    timeout: "{{ v_selinux_restart_timeout }}"
+  when:
+    - selinux_mode_changed|changed
+  tags:
+    - selinux
+
+- name: get selinux mode
+  command: getenforce
+  register: selinux_mode
+  changed_when: selinux_mode.rc != 0
+  check_mode: no
+  tags:
+    - selinux
+
+- seport:
+    ports: "{{ item.ports }}"
+    proto: "{{ item.protocol }}"
+    setype: "{{ item.type }}"
+    state: present
+  with_items:
+    - "{{ v_selinux_ports }}"
+  when:
+    - selinux_mode.stdout.find('Disabled') == -1
+    - v_selinux_ports is defined
+  tags:
+    - selinux

@@ -13,8 +13,8 @@ Your main playbook could look something like this:
 ```yaml
 ---
 - hosts: all
-  become: true
-  gather_facts: true
+  become: yes
+  gather_facts: yes
   vars_files:
     - "./vars/private/users.yaml"
     - "./vars/private/znc.yaml"

@@ -1,0 +1,53 @@
+---
+#
+# firewall
+#
+v_firewall_config: /etc/sysconfig/iptables
+
+# Note: Allowing tcp/22 is hardcoded in the template.
+#v_firewall_inbound_ports:
+#  -
+#    port: "443"
+#    protocol: "tcp"
+
+#
+# selinux
+#
+# this should be "enforcing", "permissive" or "disabled"
+v_selinux_mode: enforcing
+
+v_selinux_yum_packages:
+  - policycoreutils-python
+  - setroubleshoot
+  - setools-console
+
+# Additional port type port assignments
+# v_selinux_ports:
+#   - type: ssh_port_t
+#     protocol: tcp
+#     ports: 443
+
+v_selinux_restart_delay: 60
+v_selinux_restart_timeout: 300
+
+#
+# sshd
+#
+v_ssh_service: sshd
+
+v_ssh_config: /etc/ssh/sshd_config
+
+v_ssh_ports:
+  - 22
+
+v_ssh_listenaddresses:
+  - 0.0.0.0
+
+v_ssh_serverkeybits: 2048
+
+v_ssh_logingracetime: 15
+
+v_ssh_maxstartups: "5:50:10"
+
+v_ssh_groups:
+  - sshusers

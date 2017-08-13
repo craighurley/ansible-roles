@@ -1,3 +1,6 @@
 ---
 - name: enable and restart znc
-  service: name=znc enabled=yes state=restarted
+  service:
+    name: znc
+    enabled: yes
+    state: restarted

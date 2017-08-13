@@ -1,6 +1,8 @@
 ---
 - name: install docker
-  yum: name=docker state=present
+  yum:
+    name: docker
+    state: present
   notify:
     - restart docker
   tags:
