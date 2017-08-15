@@ -1,6 +1,6 @@
 #{{ ansible_managed }}
 
 # path
-PATH=$HOME/.local/bin:$HOME/bin:$PATH
+PATH=$HOME/.local/bin:$HOME/.bin:$PATH
 
 export PATH

@@ -1,6 +1,6 @@
-# Ansible role: bash
+# Ansible role: shell
 
-Configure bash for all users.
+Configure shell for all users.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ None.
   become: yes
   gather_facts: yes
   roles:
-    - bash
+    - shell
 ```
 
 ## TODO
