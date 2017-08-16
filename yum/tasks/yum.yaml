@@ -13,21 +13,6 @@
   tags:
     - yum
 
-#- name: disable all repos
-#  command: yum-config-manager --disable "*"
-#  tags:
-#    - yum
-#
-#- name: enable specific repos
-#  command: yum-config-manager --enable {{ item }}
-#  with_items:
-#    - base
-#    - epel
-#    - extras
-#    - updates
-#  tags:
-#    - yum
-
 - name: install common packages
   yum:
     name: "{{ item }}"
