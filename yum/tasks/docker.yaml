@@ -1,0 +1,47 @@
+---
+- name: add docker repository
+  get_url:
+    url: "{{ v_yum_docker_repo }}"
+    dest: /etc/yum.repos.d/docker.repo
+    force: yes
+    owner: 0
+    group: 0
+    mode: 0644
+  register: yum_repo
+  tags:
+    - docker
+    - yum
+
+- name: update yum cache
+  shell: yum makecache fast
+  args:
+    warn: false
+  when:
+    - yum_repo.changed
+  tags:
+    - docker
+    - yum
+
+- name: install prerequisite packages for docker
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ v_yum_docker_prerequisite_packages }}"
+  tags:
+    - docker
+    - yum
+
+- name: install packages for docker
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ v_yum_docker_packages }}"
+  notify:
+    - restart docker
+  tags:
+    - docker
+    - yum

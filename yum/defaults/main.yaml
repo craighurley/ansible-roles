@@ -26,3 +26,16 @@ v_yum_cron_emit_via: "email"
 v_yum_cron_email_from: "root@localhost"
 v_yum_cron_email_to: "root"
 v_yum_cron_email_host: "localhost"
+
+#
+# docker
+#
+v_yum_docker_repo: https://download.docker.com/linux/centos/docker-ce.repo
+
+v_yum_docker_prerequisite_packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+
+v_yum_docker_packages:
+  - docker-ce

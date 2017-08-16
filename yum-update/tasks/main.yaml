@@ -5,6 +5,7 @@
     warn: no
   tags:
     - yum
+    - update
 
 - name: update packages to the latest version
   yum:
