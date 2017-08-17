@@ -29,7 +29,6 @@ apply_updates = {{ v_yum_cron_apply_updates }}
 # random_sleep is 0 or negative, the program will run immediately.
 random_sleep = {{ v_yum_cron_random_sleep }}
 
-
 [emitters]
 # Name to use for this system in messages that are emitted.  If
 # system_name is None, the hostname will be used.
@@ -46,7 +45,6 @@ emit_via = {{ v_yum_cron_emit_via }}
 # formatted to.
 ouput_width = 80
 
-
 [email]
 # The address to send email messages from.
 email_from = {{ v_yum_cron_email_from }}
@@ -56,7 +54,6 @@ email_to = {{ v_yum_cron_email_to }}
 
 # Name of the host to connect to to send email messages.
 email_host = {{ v_yum_cron_email_host }}
-
 
 [groups]
 # List of groups to update

@@ -1,4 +1,5 @@
 ---
 v_groups:
-  - sshusers
   - deployment
+  - docker
+  - sshusers
