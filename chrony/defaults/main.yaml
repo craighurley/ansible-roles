@@ -1,0 +1,15 @@
+---
+v_chrony_package: chrony
+
+v_chrony_service: chronyd
+
+v_chrony_config: /etc/chrony.conf
+
+v_ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+#v_ntp_clients:
+#  - 192.168.0.1

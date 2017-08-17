@@ -1,0 +1,6 @@
+---
+- name: restart chrony
+  service:
+    name: "{{ v_chrony_service }}"
+    enabled: yes
+    state: started
