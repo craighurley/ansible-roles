@@ -1,0 +1,47 @@
+---
+- name: get current user
+  command: whoami
+  register: current_user
+  changed_when: current_user.rc != 0
+  check_mode: no
+  tags:
+    - weechat
+
+- name: checkout weechat config
+  git:
+    repo: "https://github.com/craighurley/weechat.git"
+    dest: "/home/{{ current_user.stdout }}/.weechat"
+    update: yes
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - weechat
+
+- name: add templates to .weechat
+  template:
+    src: "{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/.weechat/"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0640
+  with_items:
+    - sec.conf
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - weechat
+
+- name: getting running state of docker service
+  systemd:
+    name: docker
+  register: result
+  tags:
+    - weechat
+
+- name: pull weechat image
+  docker_image:
+    name: craighurley/docker-weechat
+  when:
+    - result.status.SubState | search('running')
+  tags:
+    - weechat
