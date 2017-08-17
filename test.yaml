@@ -3,8 +3,11 @@
   remote_user: root
   roles:
     - locale
+    - shell
     - sudo
     - yum-update
     - yum
-    - ntp
+    - chrony
     - harden
+    - vim
+    - weechat

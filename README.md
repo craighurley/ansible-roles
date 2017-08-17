@@ -16,21 +16,22 @@ Your main playbook could look something like this:
   become: yes
   gather_facts: yes
   vars_files:
-    - "./vars/private/users.yaml"
-    - "./vars/private/znc.yaml"
+    - ./vars/private/yum-cron.yaml
+    - ./vars/private/users.yaml
+    - ./vars/private/weechat.yaml
+    - ./vars/private/znc.yaml
 
   roles:
     - locale
-    - yum-update
-    - yum-common
-    - yum-cron
-    - ntp
-    - bash
+    - shell
     - users
-    - ssh
     - sudo
-    - firewall
-    - selinux
+    - yum-update
+    - yum
+    - chrony
+    - harden
+    - vim
+    - weechat
     - znc
 ```
 
