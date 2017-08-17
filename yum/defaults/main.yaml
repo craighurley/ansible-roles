@@ -33,9 +33,10 @@ v_yum_cron_email_host: "localhost"
 v_yum_docker_repo: https://download.docker.com/linux/centos/docker-ce.repo
 
 v_yum_docker_prerequisite_packages:
-  - yum-utils
   - device-mapper-persistent-data
   - lvm2
+  - python-docker-py
+  - yum-utils
 
 v_yum_docker_packages:
   - docker-ce
