@@ -1,0 +1,32 @@
+---
+- name: get current user
+  command: whoami
+  register: current_user
+  changed_when: current_user.rc != 0
+  check_mode: no
+  tags:
+    - vim
+
+- name: configure vim
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0640
+  with_items:
+    - .vimrc
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - vim
+
+- name: add vim package manager (vundle)
+  git:
+    repo: "https://github.com/VundleVim/Vundle.vim.git"
+    dest: "/home/{{ current_user.stdout }}/.vim/bundle/Vundle.vim"
+    update: no
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - vim
