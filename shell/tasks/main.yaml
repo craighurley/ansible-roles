@@ -8,11 +8,26 @@
   tags:
     - shell
 
+# general
+- name: add custom scripts to /usr/local/bin/
+  copy:
+    src: ".bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: 0
+    group: 0
+    mode: 0755
+  with_items:
+    - diff-highlight
+  tags:
+    - shell
+
 # skeleton
 - name: ensure directories exist for skel
   file:
     path: "/etc/skel/{{ item }}"
     state: directory
+    owner: root
+    group: root
     mode: 0700
   with_items:
     - .bin
@@ -25,19 +40,11 @@
   copy:
     src: ".ssh/{{ item }}"
     dest: "/etc/skel/.ssh/{{ item }}"
+    owner: root
+    group: root
     mode: 0600
   with_items:
     - config
-  tags:
-    - shell
-
-- name: add custom scripts for skel
-  copy:
-    src: ".bin/{{ item }}"
-    dest: /etc/skel/.bin/
-    mode: 0700
-  with_items:
-    - diff-highlight
   tags:
     - shell
 
@@ -66,31 +73,6 @@
     - shell
 
 # root
-- name: ensure directories exist for root
-  file:
-    path: "/root/{{ item }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0700
-  with_items:
-    - .ssh
-    - tmp
-  tags:
-    - shell
-
-- name: add ssh config for root
-  copy:
-    src: ".ssh/{{ item }}"
-    dest: "/root/.ssh/{{ item }}"
-    owner: root
-    group: root
-    mode: 0600
-  with_items:
-    - config
-  tags:
-    - shell
-
 - name: add dotfiles for root
   copy:
     src: "{{item }}"
@@ -124,6 +106,8 @@
     - .bin
     - .ssh
     - tmp
+  when:
+    - not current_user.stdout | search('root')
   tags:
     - shell
 
@@ -136,20 +120,6 @@
     mode: 0600
   with_items:
     - config
-  when:
-    - not current_user.stdout | search('root')
-  tags:
-    - shell
-
-- name: add custom scripts for current user
-  copy:
-    src: ".bin/{{ item }}"
-    dest: "/home/{{ current_user.stdout }}/.bin/{{ item }}"
-    owner: "{{ current_user.stdout }}"
-    group: "{{ current_user.stdout }}"
-    mode: 0700
-  with_items:
-    - diff-highlight
   when:
     - not current_user.stdout | search('root')
   tags:
