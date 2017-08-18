@@ -29,13 +29,14 @@
   tags:
     - firewall
 
-- name: disable firewalld
-  service:
+- name: uninstall firewalld services
+  yum:
     name: firewalld
-    enabled: no
-    state: stopped
+    state: absent
+  ignore_errors: yes
   tags:
     - firewall
+    - yum
 
 - name: enable iptables
   service:
