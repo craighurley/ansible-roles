@@ -29,6 +29,7 @@
     update_cache: yes
   with_items:
     - "{{ v_yum_docker_prerequisite_packages }}"
+  ignore_errors: "{{ ansible_check_mode }}"
   tags:
     - docker
     - yum
@@ -42,6 +43,7 @@
     - "{{ v_yum_docker_packages }}"
   notify:
     - restart docker
+  ignore_errors: "{{ ansible_check_mode }}"
   tags:
     - docker
     - yum
