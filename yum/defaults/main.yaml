@@ -4,14 +4,18 @@
 #
 v_yum_common_packages:
   - bash-completion
+  - bind-utils
   - git
   - lsof
   - mailx
   - net-tools
   - nmap
+  - ruby
+  - rubygem-bundler
   - tmux
   - tree
   - vim
+  - whois
 
 #
 # yum-cron
