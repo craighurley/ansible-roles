@@ -22,3 +22,6 @@ fi
 if [[ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]]; then
     source /usr/share/git-core/contrib/completion/git-prompt.sh
 fi
+
+# Disable bracketed paste mode
+printf "\e[?2004l"

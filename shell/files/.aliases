@@ -33,8 +33,11 @@ alias la="ls -lAhF ${colorflag}"
 # Always use color output for `ls`
 alias ls="command ls -h ${colorflag}"
 
+# nmap
+alias nmap='nmap -n -Pn'
+
 # tmux
 alias mux="tmuxinator"
 
-# nmap
-alias nmap='nmap -n -Pn'
+# weechat
+alias weechat="docker run --rm -it -u $(id -u):$(id -u) -v ~/.weechat:/home/user/.weechat:z craighurley/docker-weechat"

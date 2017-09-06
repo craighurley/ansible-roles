@@ -2,99 +2,11 @@
 - name: get current user
   command: whoami
   register: current_user
-  become: no
   changed_when: current_user.rc != 0
   check_mode: no
   tags:
     - shell
 
-# general
-- name: add custom scripts to /usr/local/bin/
-  copy:
-    src: ".bin/{{ item }}"
-    dest: "/usr/local/bin/{{ item }}"
-    owner: 0
-    group: 0
-    mode: 0755
-  with_items:
-    - diff-highlight
-  tags:
-    - shell
-
-# skeleton
-- name: ensure directories exist for skel
-  file:
-    path: "/etc/skel/{{ item }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0700
-  with_items:
-    - .bin
-    - .ssh
-    - tmp
-  tags:
-    - shell
-
-- name: add ssh config for skel
-  copy:
-    src: ".ssh/{{ item }}"
-    dest: "/etc/skel/.ssh/{{ item }}"
-    owner: root
-    group: root
-    mode: 0600
-  with_items:
-    - config
-  tags:
-    - shell
-
-- name: add dotfiles for skel
-  copy:
-    src: "{{ item }}"
-    dest: "/etc/skel/{{ item }}"
-    owner: root
-    group: root
-    mode: 0644
-  with_items:
-    - .aliases
-    - .bash_profile
-    - .bash_prompt
-    - .bashrc
-    - .exports
-    - .functions
-    - .gitconfig
-    - .gitignore_global
-    - .gitmessage
-    - .inputrc
-    - .path
-    - .tmux.conf
-    - .wgetrc
-  tags:
-    - shell
-
-# root
-- name: add dotfiles for root
-  copy:
-    src: "{{item }}"
-    dest: "/root/{{ item }}"
-    owner: root
-    group: root
-    mode: 0644
-  with_items:
-    - .aliases
-    - .bash_profile
-    - .bash_prompt
-    - .bashrc
-    - .exports
-    - .functions
-    - .inputrc
-    - .path
-    - .tmux.conf
-    - .wgetrc
-  tags:
-    - shell
-
-# current user
 - name: ensure directories exist for current user
   file:
     path: "/home/{{ current_user.stdout }}/{{ item }}"
@@ -103,9 +15,25 @@
     group: "{{ current_user.stdout }}"
     mode: 0700
   with_items:
-    - .bin
+    - .docker
     - .ssh
+    - .tmuxinator
+    - bin
     - tmp
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - shell
+
+- name: add docker config for current user
+  copy:
+    src: ".docker/{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/.docker/{{ item }}"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0640
+  with_items:
+    - config.json
   when:
     - not current_user.stdout | search('root')
   tags:
@@ -125,13 +53,41 @@
   tags:
     - shell
 
+- name: add tmuxinator profiles
+  copy:
+    src: ".tmuxinator/{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/.tmuxinator/{{ item }}"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0640
+  with_items:
+    - default.yml
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - shell
+
+- name: add custom scripts to ~/bin/ for current user
+  copy:
+    src: "bin/{{ item }}"
+    dest: "/home/{{ current_user.stdout }}/bin/{{ item }}"
+    owner: "{{ current_user.stdout }}"
+    group: "{{ current_user.stdout }}"
+    mode: 0750
+  with_items:
+    - diff-highlight
+  when:
+    - not current_user.stdout | search('root')
+  tags:
+    - shell
+
 - name: add dotfiles for current user
   copy:
     src: "{{ item }}"
     dest: "/home/{{ current_user.stdout }}/{{ item }}"
     owner: "{{ current_user.stdout }}"
     group: "{{ current_user.stdout }}"
-    mode: 0644
+    mode: 0640
   with_items:
     - .aliases
     - .bash_profile

@@ -1,6 +1,6 @@
 # Ansible role: shell
 
-Configure shell for all users.
+Configure shell for user.
 
 ## Requirements
 
@@ -21,7 +21,8 @@ None.
 ```yaml
 - hosts: all
   become: yes
-  gather_facts: yes
+  become_user: alice
+  gather_facts: no
   roles:
     - shell
 ```
