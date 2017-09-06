@@ -16,7 +16,6 @@ ListenAddress {{ address }}
 {% endfor %}
 {% endif %}
 
-
 Protocol 2
 # HostKeys for protocol version 2
 HostKey /etc/ssh/ssh_host_rsa_key
@@ -28,9 +27,8 @@ KeyRegenerationInterval 3600
 ServerKeyBits {{ v_ssh_serverkeybits }}
 
 # Logging
-SyslogFacility AUTH
 SyslogFacility AUTHPRIV
-LogLevel INFO
+#LogLevel INFO
 
 # Authentication:
 LoginGraceTime {{ v_ssh_logingracetime }}

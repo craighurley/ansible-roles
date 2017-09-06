@@ -4,6 +4,7 @@
 * Enable and configure selinux.
 * Disable firewalld, install and enable iptables, then configure iptables rules.
 * Configure sshd.
+* Configure tcpwrappers hosts.deny file.
 
 ## Requirements
 

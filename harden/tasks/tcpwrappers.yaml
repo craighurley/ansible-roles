@@ -1,0 +1,12 @@
+---
+- name: copy tcpwrappers files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/{{ item }}"
+    owner: 0
+    group: 0
+    mode: 0644
+  with_items:
+    - hosts.deny
+  tags:
+    - tcpwrappers
