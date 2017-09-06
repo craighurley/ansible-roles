@@ -25,7 +25,7 @@
   git:
     repo: "https://github.com/VundleVim/Vundle.vim.git"
     dest: "/home/{{ current_user.stdout }}/.vim/bundle/Vundle.vim"
-    update: no
+    update: yes
   when:
     - not current_user.stdout | search('root')
   tags:
