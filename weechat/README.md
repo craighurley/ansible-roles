@@ -1,6 +1,7 @@
 # Ansible role: weechat
 
 Configure weechat for current user.
+Pull docker image for safely running a new version of weechat.
 
 ## Requirements
 
@@ -23,10 +24,10 @@ The following packages must be already installed:
 
 ## Example Playbook
 
-```
+```yaml
 - hosts: all
   become: yes
-  become_user: USERNAME
+  become_user: alice
   gather_facts: no
   roles:
     - weechat
