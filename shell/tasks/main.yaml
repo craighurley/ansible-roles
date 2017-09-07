@@ -17,7 +17,6 @@
   with_items:
     - .docker
     - .ssh
-    - .tmuxinator
     - bin
     - tmp
   when:
@@ -48,20 +47,6 @@
     mode: 0600
   with_items:
     - config
-  when:
-    - not current_user.stdout | search('root')
-  tags:
-    - shell
-
-- name: add tmuxinator profiles
-  copy:
-    src: ".tmuxinator/{{ item }}"
-    dest: "/home/{{ current_user.stdout }}/.tmuxinator/{{ item }}"
-    owner: "{{ current_user.stdout }}"
-    group: "{{ current_user.stdout }}"
-    mode: 0640
-  with_items:
-    - default.yml
   when:
     - not current_user.stdout | search('root')
   tags:
@@ -100,7 +85,6 @@
     - .gitmessage
     - .inputrc
     - .path
-    - .tmux.conf
     - .wgetrc
   when:
     - not current_user.stdout | search('root')
