@@ -25,6 +25,7 @@
   command: ruby -v
   register: ruby
   changed_when: ruby.rc != 0
+  check_mode: no
   ignore_errors: yes
   tags:
     - tmux
